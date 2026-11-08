@@ -37,10 +37,7 @@
 		</dependency>
 
 		<!-- 2. For our Permanent Register -->
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-data-mongodb</artifactId>
-		</dependency>
+
 
 		<!-- 3. For our Fast Waiting Line -->
 		<dependency>

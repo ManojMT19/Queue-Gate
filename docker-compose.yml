@@ -7,13 +7,6 @@ services:
       - "6379:6379"
     restart: unless-stopped
 
-  mongo:
-    image: mongo:7.0
-    container_name: queueroom-mongo
-    ports:
-      - "27017:27017"
-    restart: unless-stopped
-
   kafka:
     image: apache/kafka:3.7.0
     container_name: queueroom-kafka

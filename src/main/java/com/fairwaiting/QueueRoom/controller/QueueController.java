@@ -47,17 +47,5 @@ public class QueueController
         return ResponseEntity.ok(new PositionResponse(displayPosition , total));
     }
 
-    @PostMapping("/admit")
-    public ResponseEntity<?>admitNextUser()
-    {
-        var record = queueService.admitNextUser();
-        if (record != null)
-        {
-            return ResponseEntity.ok(record);
-        }
-        else
-        {
-            return ResponseEntity.badRequest().body("Queue is empty");
-        }
-    }
+
 }

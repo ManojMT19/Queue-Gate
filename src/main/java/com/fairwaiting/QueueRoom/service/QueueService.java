@@ -1,34 +1,26 @@
 package com.fairwaiting.QueueRoom.service;
 
-import com.fairwaiting.QueueRoom.entity.AdmissionRecord;
 import com.fairwaiting.QueueRoom.kafka.QueueEventProducer;
 import com.fairwaiting.QueueRoom.kafka.event.EventType;
 import com.fairwaiting.QueueRoom.kafka.event.QueueEvent;
-import com.fairwaiting.QueueRoom.repository.AdmissionRecordRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.StringRedisTemplate;
-import org.springframework.data.redis.core.ZSetOperations;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Service;
-
 import java.time.Instant;
-import java.util.Date;
 
 @Slf4j
 @Service
 public class QueueService
 {
     private final StringRedisTemplate redisTemplate;  // This is the built-in Spring class that directly talks to the Redis container you just started.
-    private final AdmissionRecordRepository admissionRecordRepository;
     private final QueueEventProducer eventProducer;
 
     private static final String QUEUE_KEY = "waiting_room_zset";
     private static final String USER_JOINED_TOPIC = "user-joined";
 
-    public QueueService(StringRedisTemplate redisTemplate, AdmissionRecordRepository admissionRecordRepository, QueueEventProducer eventProducer)
+    public QueueService(StringRedisTemplate redisTemplate, QueueEventProducer eventProducer)
     {
         this.redisTemplate = redisTemplate;
-        this.admissionRecordRepository = admissionRecordRepository;
         this.eventProducer = eventProducer;
     }
 
@@ -77,23 +69,5 @@ public class QueueService
         return redisTemplate.opsForZSet().rank(QUEUE_KEY , userId);
     }
 
-    public AdmissionRecord admitNextUser()
-    {
-        ZSetOperations.TypedTuple<String> tuple = redisTemplate.opsForZSet().popMin(QUEUE_KEY);
 
-        if (tuple == null || tuple.getValue() == null)
-        {
-            return  null;
-        }
-
-        String userId = tuple.getValue();
-
-        AdmissionRecord record = new AdmissionRecord();
-        record.setUserId(userId);
-        record.setStatus("ADMITTED");
-        record.setAdmittedAt(new Date().toInstant());
-
-        return admissionRecordRepository.save(record);
-
-    }
 }

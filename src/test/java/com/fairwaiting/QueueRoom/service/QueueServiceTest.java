@@ -3,7 +3,6 @@ package com.fairwaiting.QueueRoom.service;
 import com.fairwaiting.QueueRoom.kafka.QueueEventProducer;
 import com.fairwaiting.QueueRoom.kafka.event.EventType;
 import com.fairwaiting.QueueRoom.kafka.event.QueueEvent;
-import com.fairwaiting.QueueRoom.repository.AdmissionRecordRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -23,7 +22,6 @@ import static org.mockito.Mockito.*;
 public class QueueServiceTest
 {
     @Mock private StringRedisTemplate redisTemplate;
-    @Mock private AdmissionRecordRepository admissionRecordRepository;
     @Mock private QueueEventProducer eventProducer;
     @Mock private ZSetOperations<String , String> zSetOps;
 
