@@ -1,4 +1,4 @@
-version: '3.8'
+
 services:
   redis:
     image: redis:7.2
@@ -13,7 +13,6 @@ services:
     ports:
       - "9092:9092"
     environment:
-      # KRaft mode (No Zookeeper required)
       KAFKA_NODE_ID: 1
       KAFKA_PROCESS_ROLES: broker,controller
       KAFKA_LISTENERS: PLAINTEXT://0.0.0.0:9092,CONTROLLER://0.0.0.0:9093
@@ -26,3 +25,19 @@ services:
       KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
       KAFKA_GROUP_INITIAL_REBALANCE_DELAY_MS: 0
     restart: unless-stopped
+
+  postgres:
+    image: postgres:16
+    container_name: queuegate-postgres
+    ports:
+      - "5433:5432"
+    environment:
+      POSTGRES_DB: waiting_room_db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    restart: unless-stopped
+
+volumes:
+  postgres_data:
