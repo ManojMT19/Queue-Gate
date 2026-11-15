@@ -32,6 +32,13 @@ public class FifoStrategy implements AdmissionStrategy
     }
 
     @Override
+    public Double getUserJoinedAt(String userId)
+    {
+        return redisTemplate.opsForZSet()
+                .score(QUEUE_KEY, userId);
+    }
+
+    @Override
     public void removeUsers(List<String> userIds)
     {
         if (userIds.isEmpty())

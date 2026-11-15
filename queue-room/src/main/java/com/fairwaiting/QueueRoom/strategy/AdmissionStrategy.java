@@ -8,6 +8,7 @@ public interface AdmissionStrategy
     // this is the list of users which r about to be removed
     // this helps changing the no of users to be removed
 
+    Double getUserJoinedAt(String userId);
     void removeUsers(List<String> userIds);
 
 }

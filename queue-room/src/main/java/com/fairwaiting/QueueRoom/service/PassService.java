@@ -39,4 +39,11 @@ public class PassService
 
         return storedToken != null && storedToken.equals(providedToken);
     }
+
+    public void deletePass(String userId)
+    {
+        String key = PASS_PREFIX + userId;
+
+        redisTemplate.delete(key);
+    }
 }
